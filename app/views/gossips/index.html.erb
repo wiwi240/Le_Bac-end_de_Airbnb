@@ -1,16 +1,31 @@
-<div class="row">
-  <% @gossips.each do |gossip| %>
-    <div class="col-md-4">
-      <div class="card h-100">
-        <div class="card-body">
-          <h5 class="card-title text-primary"><%= gossip.title %></h5>
-          <p class="card-text mt-3"><%= gossip.content %></p>
-        </div>
-        <div class="card-footer d-flex justify-content-between align-items-center">
-          <span class="fw-bold text-dark">Auteur : <%= gossip.user.first_name %></span>
-          <%= link_to "Voir plus", gossip_path(gossip), class: "text-decoration-none fw-semibold" %>
+<div class="container mt-5">
+  <h1 class="text-center mb-5 fw-bold">Tous les Potins</h1>
+  <div class="row">
+    <% @gossips.each do |gossip| %>
+      <div class="col-md-4 mb-4">
+        <div class="card h-100 border-0 shadow-sm position-relative">
+          <div class="position-absolute top-0 end-0 m-2">
+            <span class="badge rounded-pill bg-danger shadow-sm px-3 py-2">
+              <%= gossip.likes.count %> ❤️
+            </span>
+          </div>
+          <div class="card-body d-flex flex-column pt-4">
+            <h5 class="card-title fw-bold text-primary mt-2 text-capitalize"><%= gossip.title %></h5>
+            <p class="card-text text-muted mb-4">
+              Par : <span class="fw-semibold text-dark"><%= gossip.user&.first_name %></span><br>
+              <small>Ville : <%= gossip.user&.city&.name %></small>
+            </p>
+            <div class="mt-auto d-flex justify-content-between align-items-center border-top pt-3">
+              <% if logged_in? %>
+                <% if gossip.likes.exists?(user_id: current_user.id) %>
+                  <small class="text-success fw-bold">Déjà liké</small>
+                <% end %>
+              <% end %>
+              <%= link_to "Voir le potin", gossip_path(gossip.id), class: "btn btn-outline-primary btn-sm px-4" %>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
 </div>

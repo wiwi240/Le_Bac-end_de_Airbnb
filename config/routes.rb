@@ -1,12 +1,12 @@
 Rails.application.routes.draw do
-  get "users/show"
-  get "users/edit"
   root 'static_pages#home'
+  
   resources :gossips do
     resources :comments
+    resources :likes, only: [:create, :destroy]
   end
-  # On ajoute edit et update pour le profil
-  resources :users, only: [:show, :edit, :update, :new, :create]
+
+  resources :users, only: [:new, :create, :show]
   resources :sessions, only: [:new, :create, :destroy]
   
   get '/team', to: 'static_pages#team'

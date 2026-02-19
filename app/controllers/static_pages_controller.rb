@@ -1,7 +1,15 @@
 class StaticPagesController < ApplicationController
   def home
-    # Juste pour la présentation
+    # Sélection des 5 potins les plus aimés
+    @gossips = Gossip.left_joins(:likes)
+                     .group(:id)
+                     .order('COUNT(likes.id) DESC')
+                     .limit(5)
   end
-  
-  # ... tes autres méthodes (team, contact)
+
+  def team
+  end
+
+  def contact
+  end
 end

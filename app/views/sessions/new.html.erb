@@ -1,16 +1,23 @@
-<div class="row justify-content-center">
-  <div class="col-md-4 card p-4">
-    <h2 class="text-center mb-4">Connexion</h2>
-    <%= form_tag sessions_path do %>
-      <div class="mb-3">
-        <%= label_tag :email, "Email", class: "form-label" %>
-        <%= email_field_tag :email, nil, class: "form-control" %>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6 card p-4 shadow-sm">
+      <h2 class="text-center mb-4">Connexion</h2>
+
+      <%= form_tag sessions_path, method: :post do %>
+        <div class="mb-3">
+          <label class="form-label">Email</label>
+          <%= email_field_tag :email, nil, class: "form-control" %>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Mot de passe</label>
+          <%= password_field_tag :password, nil, class: "form-control" %>
+        </div>
+        <%= submit_tag "Se connecter", class: "btn btn-primary w-100" %>
+      <% end %>
+      
+      <div class="mt-3 text-center">
+        <%= link_to "Pas encore de compte ? S'inscrire", new_user_path %>
       </div>
-      <div class="mb-3">
-        <%= label_tag :password, "Password", class: "form-label" %>
-        <%= password_field_tag :password, nil, class: "form-control" %>
-      </div>
-      <%= submit_tag "Entrer", class: "btn btn-primary w-100" %>
-    <% end %>
+    </div>
   </div>
 </div>

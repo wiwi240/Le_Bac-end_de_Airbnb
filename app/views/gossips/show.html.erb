@@ -1,48 +1,17 @@
-<div class="card p-4 shadow-sm border-0 mb-4">
-  <div class="d-flex justify-content-between align-items-start">
-    <div>
-      <h1 class="fw-bold"><%= @gossip.title %></h1>
-      <p class="text-muted">
-        Par : <%= link_to @gossip.user.first_name, user_path(@gossip.user), class: "fw-bold text-decoration-none" %> 
-        à <%= @gossip.user.city.name %>
-      </p>
-    </div>
-    <span class="badge bg-light text-primary border"><%= @gossip.created_at.strftime("%d/%m/%Y") %></span>
+<div class="hero-section">
+  <%= image_tag "image_638eb4.png", class: "img-4k" %>
+  <div class="hero-overlay">
+    <h1 class="fw-bold"><%= @gossip.title %></h1>
   </div>
-  <p class="fs-5 mt-3"><%= @gossip.content %></p>
 </div>
 
-<div class="mt-5">
-  <h3 class="fw-bold mb-4">Commentaires (<%= @gossip.comments.count %>)</h3>
-  
-  <% @gossip.comments.each do |comment| %>
-    <div class="card p-3 mb-3 border-0 shadow-sm bg-white">
-      <div class="d-flex justify-content-between">
-        <span class="fw-bold text-primary"><%= comment.user.first_name %></span>
-        <% if current_user == comment.user %>
-          <div class="btn-group">
-            <%= link_to "Modifier", edit_gossip_comment_path(@gossip, comment), class: "btn btn-sm btn-outline-secondary" %>
-            <%= button_to "Supprimer", gossip_comment_path(@gossip, comment), method: :delete, class: "btn btn-sm btn-outline-danger" %>
-          </div>
-        <% end %>
-      </div>
-      <p class="mb-0 mt-2"><%= comment.content %></p>
+<div class="container mt-5">
+  <div class="card shadow-sm border-0">
+    <div class="card-body p-4">
+      <h2 class="card-title fw-bold text-capitalize"><%= @gossip.title %></h2>
+      <p class="text-muted">Auteur : <%= @gossip.user.first_name %></p>
+      <hr>
+      <p class="fs-5"><%= @gossip.content %></p>
     </div>
-  <% end %>
-
-  <% if logged_in? %>
-    <div class="card p-4 border-0 shadow-sm bg-light mt-4">
-      <h5 class="fw-bold mb-3">Ajouter un commentaire</h5>
-      <%= form_tag gossip_comments_path(@gossip) do %>
-        <div class="mb-3">
-          <%= text_area_tag :content, nil, class: "form-control", rows: 3, placeholder: "Exprimez-vous..." %>
-        </div>
-        <%= submit_tag "Publier", class: "btn btn-primary px-4" %>
-      <% end %>
-    </div>
-  <% else %>
-    <div class="alert alert-info border-0 shadow-sm">
-      Vous devez <%= link_to "vous connecter", new_session_path, class: "fw-bold" %> pour participer à la conversation.
-    </div>
-  <% end %>
+  </div>
 </div>

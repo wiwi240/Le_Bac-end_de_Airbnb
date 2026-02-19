@@ -1,82 +1,84 @@
-/* Variables de couleurs sombres */
+/* --- VARIABLES GLOBALES --- */
 :root {
   --bg-color: #121212;
   --paper-color: #1e1e1e;
   --text-color: #dcdcdc;
-  --margin-line: #ff4500;
-  --row-line: #333333;
+  --margin-line: #ff4500; /* Ligne rouge/orange du bloc-notes */
+  --row-line: #333333;    /* Lignes horizontales */
 }
 
+/* --- BASE --- */
 body {
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  font-family: 'Courier New', Courier, monospace;
+  background-color: var(--bg-color) !important;
+  color: var(--text-color) !important;
+  font-family: 'Courier New', Courier, monospace !important;
+  margin: 0;
+  padding: 0;
 }
 
-/* Aspect bloc-notes pour les cartes */
-.card {
-  background-color: var(--paper-color) !important;
-  border: 1px solid #050505 !important;
-  border-left: 5px solid var(--margin-line) !important;
-  /* Ligne de marge */
-  border-radius: 0 !important;
-  background-image: linear-gradient(var(--row-line) 1px, transparent 1px);
-  background-size: 100% 2rem;
-  line-height: 2rem;
-  padding-left: 10px;
-}
-
-/* Force le texte des cartes en blanc */
-.card,
-.card-body,
-.card-title,
-.card-text,
-.card-header,
-.card-footer {
-  color: #ffffff !important;
-}
-
-/* Si Daryl est un lien (link_to), force la couleur blanche aussi */
-.card a {
-  color: #ffffff !important;
-  text-decoration: underline;
-}
-
-/* Optionnel : Une couleur différente pour faire ressortir le nom de l'auteur */
-.gossip-author {
-  color: var(--margin-line) !important;
-  /* Utilise ton orange vif */
-  font-weight: bold;
-}
-
-
-/* Header et Navigation */
+/* --- NAVIGATION --- */
 .navbar {
   background-color: #df6704 !important;
-  border-bottom: 1px solid var(--margin-line);
+  border-bottom: 2px solid var(--margin-line);
 }
 
-.nav-link {
+.navbar .nav-link, .navbar .navbar-brand {
+  color: white !important;
+}
+
+/* --- STYLE BLOC-NOTES (CARTES) --- */
+.card {
+  background-color: var(--paper-color) !important;
+  border: 1px solid #000 !important;
+  border-left: 5px solid var(--margin-line) !important; /* Marge verticale orange */
+  border-radius: 0 !important;
+  
+  /* Création des lignes horizontales du papier */
+  background-image: linear-gradient(var(--row-line) 1px, transparent 1px) !important;
+  background-size: 100% 2rem !important;
+  line-height: 2rem !important;
+  
+  color: white !important;
+  padding-left: 15px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.5) !important;
+}
+
+.card-title {
+  color: #ffffff !important;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+.card-text {
   color: var(--text-color) !important;
 }
 
-.nav-link:hover {
-  color: var(--margin-line) !important;
-}
-
-/* Liens et boutons */
+/* --- BOUTONS & ELEMENTS --- */
 .btn-primary {
   background-color: transparent !important;
   border: 1px solid var(--text-color) !important;
   color: var(--text-color) !important;
-  border-radius: 0;
+  border-radius: 0 !important;
+  text-transform: uppercase;
+  font-weight: bold;
 }
 
 .btn-primary:hover {
   background-color: var(--text-color) !important;
-  color: #e7e7e7 !important;
+  color: #121212 !important;
 }
 
-.background {
-  color: rgb(10, 123, 228);
+.btn-outline-primary {
+  border-radius: 0 !important;
+  border-color: var(--margin-line) !important;
+  color: var(--margin-line) !important;
 }
+
+.btn-outline-primary:hover {
+  background-color: var(--margin-line) !important;
+  color: white !important;
+}
+
+.badge {
+  font-family: Arial, sans-serif !important;
+  font-weight: bold;
