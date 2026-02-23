@@ -7,9 +7,12 @@
   --white: #ffffff;
 
   /* --- RÉGLAGES DE TRANSPARENCE (0.0 à 1.0) --- */
-  --header-opacity: 0.1; /* Plus bas = image plus visible */
-  --card-opacity: 0.9;   /* Plus bas = fond de carte plus transparent */
-  --blur-intensity: 8px; /* Intensité du flou d'arrière-plan */
+  --header-opacity: 0.1;
+  /* Plus bas = image plus visible */
+  --card-opacity: 0.9;
+  /* Plus bas = fond de carte plus transparent */
+  --blur-intensity: 8px;
+  /* Intensité du flou d'arrière-plan */
 }
 
 body {
@@ -23,11 +26,9 @@ body {
 /* --- HEADER PRO --- */
 .hero-banner {
   /* Utilisation de la syntaxe moderne rgb(R G B / Alpha) */
-  background-image: 
-    linear-gradient(
-      rgb(255 255 255 / var(--header-opacity)), 
-      rgb(255 255 255 / var(--header-opacity))
-    ), 
+  background-image:
+    linear-gradient(rgb(255 255 255 / var(--header-opacity)),
+      rgb(255 255 255 / var(--header-opacity))),
     url("image_638eb4.png");
   background-size: cover;
   background-position: center;
@@ -47,7 +48,7 @@ body {
 .card {
   /* Fond géré par la variable d'opacité */
   background: rgb(255 255 255 / var(--card-opacity)) !important;
-  
+
   /* Flou d'arrière-plan (optionnel, pour l'aspect pro) */
   backdrop-filter: blur(var(--blur-intensity));
   -webkit-backdrop-filter: blur(var(--blur-intensity));

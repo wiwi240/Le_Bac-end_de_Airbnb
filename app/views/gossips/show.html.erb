@@ -1,17 +1,67 @@
-<div class="hero-section">
-  <%= image_tag "image_638eb4.png", class: "img-4k" %>
-  <div class="hero-overlay">
-    <h1 class="fw-bold"><%= @gossip.title %></h1>
-  </div>
-</div>
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow-sm border-0">
+        <div class="card-body p-5">
+          
+          <div class="text-center mb-4">
+            <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px; font-size: 2rem; font-weight: 800;">
+              <%= @user.first_name[0].upcase %>
+            </div>
+            <h2 class="fw-bold text-dark"><%= @user.first_name %> <%= @user.last_name %></h2>
+            <p class="text-muted mb-3">Membre de la communauté Gossip</p>
 
-<div class="container mt-5">
-  <div class="card shadow-sm border-0">
-    <div class="card-body p-4">
-      <h2 class="card-title fw-bold text-capitalize"><%= @gossip.title %></h2>
-      <p class="text-muted">Auteur : <%= @gossip.user.first_name %></p>
-      <hr>
-      <p class="fs-5"><%= @gossip.content %></p>
+            <% if logged_in? && current_user == @user %>
+              <div class="mb-4">
+                <%= link_to "Modifier mon profil", edit_user_path(@user), class: "btn btn-outline-primary btn-sm px-4 fw-bold" %>
+              </div>
+            <% end %>
+          </div>
+
+          <div class="row g-4 text-center">
+            <div class="col-6">
+              <div class="p-3 border rounded bg-light">
+                <small class="text-uppercase text-muted fw-bold d-block mb-1">Ville</small>
+                <p class="mb-0 fw-semibold"><%= @user.city.name %></p>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="p-3 border rounded bg-light">
+                <small class="text-uppercase text-muted fw-bold d-block mb-1">Âge</small>
+                <p class="mb-0 fw-semibold"><%= @user.age %> ans</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4 p-3 border-start border-4 border-primary bg-light rounded-end">
+            <h5 class="fw-bold small text-uppercase text-muted">Description</h5>
+            <p class="mb-0 text-dark"><%= @user.description.presence || "Aucune information complémentaire." %></p>
+          </div>
+
+          <div class="mt-5">
+            <h4 class="fw-bold mb-3">Publications</h4>
+            <div class="list-group">
+              <% if @user.gossips.any? %>
+                <% @user.gossips.each do |gossip| %>
+                  <%= link_to gossip_path(gossip), class: "list-group-item list-group-item-action d-flex justify-content-between align-items-center" do %>
+                    <span class="text-truncate fw-medium"><%= gossip.title %></span>
+                    <span class="badge bg-danger rounded-pill"><%= gossip.likes.count %> Likes</span>
+                  <% end %>
+                <% end %>
+              <% else %>
+                <div class="text-center p-4 border rounded dashed">
+                  <p class="text-muted mb-0 small">Cet utilisateur n'a pas encore publié de potins.</p>
+                </div>
+              <% end %>
+            </div>
+          </div>
+
+          <div class="mt-5 text-center">
+            <%= link_to "Retour à l'accueil", root_path, class: "btn btn-link text-secondary text-decoration-none small" %>
+          </div>
+
+        </div>
+      </div>
     </div>
   </div>
 </div>

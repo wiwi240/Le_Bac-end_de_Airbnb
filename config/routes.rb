@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     resources :likes, only: [:create, :destroy]
   end
 
-  resources :users, only: [:new, :create, :show]
+  resources :users
   resources :sessions, only: [:new, :create, :destroy]
   
   get '/team', to: 'static_pages#team'

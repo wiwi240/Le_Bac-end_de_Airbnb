@@ -1,34 +1,72 @@
-<div class="row justify-content-center">
-  <div class="col-md-6">
-    <div class="card p-5 shadow-sm border-0">
-      <h2 class="fw-bold mb-4">Modifier mon profil</h2>
-      
-      <%= form_tag user_path(@user), method: :patch do %>
-        <div class="mb-3">
-          <label class="form-label fw-bold">Prénom</label>
-          <%= text_field_tag :first_name, @user.first_name, class: "form-control" %>
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-sm border-0">
+        <div class="card-body p-5">
+          <h2 class="text-center fw-bold mb-4">Modifier mon profil</h2>
+
+          <%# BLOC D'ERREURS : S'affiche uniquement si l'update échoue %>
+          <% if @user.errors.any? %>
+            <div class="alert alert-danger">
+              <p class="mb-1 fw-bold">Impossible de sauvegarder :</p>
+              <ul class="mb-0 small">
+                <% @user.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+
+          <%= form_with model: @user, local: true, data: { turbo: false } do |f| %>
+            
+            <div class="row mb-3">
+              <div class="col">
+                <%= f.label :first_name, "Prénom", class: "form-label fw-bold" %>
+                <%= f.text_field :first_name, class: "form-control" %>
+              </div>
+              <div class="col">
+                <%= f.label :last_name, "Nom", class: "form-label fw-bold" %>
+                <%= f.text_field :last_name, class: "form-control" %>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <%= f.label :age, "Age", class: "form-label fw-bold" %>
+              <%= f.number_field :age, class: "form-control" %>
+            </div>
+
+            <div class="mb-3">
+              <%= f.label :city_id, "Ville", class: "form-label fw-bold" %>
+              <%= f.collection_select :city_id, City.all, :id, :name, {}, { class: "form-select" } %>
+            </div>
+
+            <div class="mb-3">
+              <%= f.label :description, "Description", class: "form-label fw-bold" %>
+              <%= f.text_area :description, class: "form-control", rows: 4 %>
+            </div>
+
+            <hr class="my-4">
+            <p class="text-muted small">Laisse vide si tu ne veux pas changer ton mot de passe.</p>
+
+            <div class="mb-3">
+              <%= f.label :password, "Nouveau mot de passe", class: "form-label fw-bold" %>
+              <%= f.password_field :password, class: "form-control" %>
+            </div>
+
+            <div class="mb-4">
+              <%= f.label :password_confirmation, "Confirmer le mot de passe", class: "form-label fw-bold" %>
+              <%= f.password_field :password_confirmation, class: "form-control" %>
+            </div>
+
+            <%= f.submit "Mettre à jour", class: "btn btn-primary w-100 fw-bold py-2" %>
+          <% end %>
+
+          <div class="text-center mt-3">
+            <%= link_to "Annuler", user_path(@user), class: "text-secondary text-decoration-none small" %>
+          </div>
+
         </div>
-        
-        <div class="mb-3">
-          <label class="form-label fw-bold">Nom</label>
-          <%= text_field_tag :last_name, @user.last_name, class: "form-control" %>
-        </div>
-        
-        <div class="mb-3">
-          <label class="form-label fw-bold">Âge</label>
-          <%= number_field_tag :age, @user.age, class: "form-control" %>
-        </div>
-        
-        <div class="mb-3">
-          <label class="form-label fw-bold">Bio</label>
-          <%= text_area_tag :description, @user.description, class: "form-control", rows: 4 %>
-        </div>
-        
-        <div class="d-flex justify-content-between align-items-center mt-4">
-          <%= link_to "Annuler", user_path(@user), class: "text-muted" %>
-          <%= submit_tag "Enregistrer les changements", class: "btn btn-primary" %>
-        </div>
-      <% end %>
+      </div>
     </div>
   </div>
 </div>

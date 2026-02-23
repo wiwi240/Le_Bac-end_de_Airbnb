@@ -1,9 +1,9 @@
 class GossipsController < ApplicationController
-  before_action :authenticate_user, only: [:new, :create, :show]
+  # On n'oblige pas à être connecté pour VOIR (show/index), seulement pour créer/modifier
+  before_action :authenticate_user, only: [:new, :create, :edit, :update, :destroy]
   before_action :is_owner?, only: [:edit, :update, :destroy]
 
   def index
-    # Sélection de tous les potins du plus récent au plus ancien
     @gossips = Gossip.all.order(created_at: :desc)
   end
 
@@ -16,13 +16,15 @@ class GossipsController < ApplicationController
   end
 
   def create
-    @gossip = Gossip.new(title: params[:title], content: params[:content])
+    @gossip = Gossip.new(gossip_params)
     @gossip.user = current_user
+
     if @gossip.save
-      flash[:success] = "Potin créé."
-      redirect_to root_path
+      flash[:success] = "Ton potin a été publié avec succès !"
+      # Redirige vers l'index des potins (sans bannière) plutôt que l'accueil
+      redirect_to gossips_path 
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -32,26 +34,32 @@ class GossipsController < ApplicationController
 
   def update
     @gossip = Gossip.find(params[:id])
-    if @gossip.update(title: params[:title], content: params[:content])
-      flash[:success] = "Potin mis à jour."
+    if @gossip.update(gossip_params)
+      flash[:success] = "Potin mis à jour !"
       redirect_to @gossip
     else
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
     @gossip = Gossip.find(params[:id])
     @gossip.destroy
-    flash[:notice] = "Potin supprimé."
-    redirect_to root_path
+    flash[:notice] = "Potin supprimé définitivement."
+    # Redirige vers l'index pour rester sur la liste propre
+    redirect_to gossips_path
   end
 
   private
 
+  # Utilise les Strong Parameters pour la sécurité
+  def gossip_params
+    params.require(:gossip).permit(:title, :content)
+  end
+
   def authenticate_user
     unless logged_in?
-      flash[:danger] = "Veuillez vous connecter."
+      flash[:danger] = "Connecte-toi pour partager un secret !"
       redirect_to new_session_path
     end
   end
@@ -59,7 +67,7 @@ class GossipsController < ApplicationController
   def is_owner?
     @gossip = Gossip.find(params[:id])
     unless current_user == @gossip.user
-      flash[:danger] = "Accès refusé."
+      flash[:danger] = "Ce n'est pas ton secret, tu ne peux pas le modifier."
       redirect_to root_path
     end
   end
